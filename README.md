@@ -51,9 +51,9 @@ Phase 1: Initialization & Parsing
 
 [X] Makefile: Implement all, clean, fclean, re rules.
 
-[ ] Window: Open a 1920x1080 CSFML window.
+[X] Window: Open a 1920x1080 CSFML window.
 
-[ ] Event Handling: Handle window closing (ESC or Close button).
+[X] Event Handling: Handle window closing (ESC or Close button).
 
 [ ] Parsing: Read the script file supplied as an argument.
 

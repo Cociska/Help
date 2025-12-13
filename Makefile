@@ -9,6 +9,7 @@ UTILS_PATH = utils/
 SRC = 	$(SRC_PATH)helper.c \
 		$(UTILS_PATH)my_strlen.c \
 		$(UTILS_PATH)my_strcmp.c \
+		$(SRC_PATH)window.c \
 		$(SRC_PATH)main.c
 
 SRC_TESTS =	$(TESTS_PATH)test_my_radar.c
