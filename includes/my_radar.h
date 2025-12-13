@@ -20,6 +20,9 @@
 typedef struct game_s {
     sfRenderWindow *window;
     sfEvent event;
+    sfTexture *plane_texture;
+    sfSprite *plane_sprite;
+    sfClock *clock;
 } game_t;
 
 int my_strlen(const char *s);
@@ -27,6 +30,6 @@ int my_strcmp(char const *s1, char const *s2);
 
 void help(void);
 
-int launch_simulation(void);
+int open_window(game_t *game);
 
 #endif //MY_RADAR_MY_RADAR_H
