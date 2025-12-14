@@ -20,6 +20,21 @@ static void poll_events(game_t *game)
     }
 }
 
+static void update_game(game_t *game)
+{
+    sfVector2f pos;
+    sfTime time_elapsed = sfClock_getElapsedTime(game->clock);
+    float seconds = sfTime_asSeconds(time_elapsed);
+
+    if (seconds > 0.01) {
+        pos = sfSprite_getPosition(game->plane_sprite);
+        pos.x += 100.0 * seconds;
+        pos.y += 50.0 * seconds;
+        sfSprite_setPosition(game->plane_sprite, pos);
+        sfClock_restart(game->clock);
+    }
+}
+
 static void load_resources(game_t *game)
 {
     game->plane_texture = sfTexture_createFromFile("assets/plane.png", NULL);
@@ -40,6 +55,7 @@ void game_loop(game_t *game)
 {
     while (sfRenderWindow_isOpen(game->window)) {
         poll_events(game);
+        update_game(game);
         sfRenderWindow_clear(game->window, sfBlack);
         sfRenderWindow_drawSprite(game->window, game->plane_sprite, NULL);
         sfRenderWindow_display(game->window);
