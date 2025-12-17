@@ -20,6 +20,8 @@
 typedef struct game_s {
     sfRenderWindow *window;
     sfEvent event;
+    sfTexture *background_texture;
+    sfSprite *background_sprite;
     sfTexture *plane_texture;
     sfSprite *plane_sprite;
     sfClock *clock;
