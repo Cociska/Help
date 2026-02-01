@@ -7,7 +7,7 @@
 
 #ifndef MY
     #define MY
- 
+
 int my_putchar(char c);
 int my_isneg(int nb);
 int my_put_nbr(int nb);
@@ -38,5 +38,5 @@ int my_showstr(void);
 int my_showmem(void);
 char *my_strcat(char *dest, char const *src);
 char *my_strncat(char *dest, char const *src, int nb);
- 
+
 #endif /* MY */

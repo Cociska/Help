@@ -22,7 +22,8 @@ static void follow_percent_nb_four(char nxt_c, va_list list, int *count)
     }
 }
 
-static void follow_percent_tempname(char nxt_c, va_list list, int *count)
+static void follow_percent_tempname(char nxt_c, va_list list,
+    int *count)
 {
     switch (nxt_c) {
         case 'A':
@@ -62,20 +63,21 @@ static void follow_percent_ter(char nxt_c, va_list list, int *count)
     }
 }
 
-static void follow_percent_bis(char nxt_c, va_list list, int *count)
+static void follow_percent_bis(char nxt_c, va_list list, int *count,
+    int width)
 {
     switch (nxt_c) {
         case 'x':
-            *count += my_put_hex(va_arg(list, int), 0);
+            *count += pad_hex(va_arg(list, int), width, 0);
             break;
         case 'X':
-            *count += my_put_hex(va_arg(list, int), 1);
+            *count += pad_hex(va_arg(list, int), width, 1);
             break;
         case 'f':
             *count += my_put_float(va_arg(list, double), 6, 0);
             break;
         case 'o':
-            *count += my_put_oct(va_arg(list, int));
+            *count += pad_oct(va_arg(list, int), width);
             break;
         default:
             follow_percent_ter(nxt_c, list, count);
@@ -83,7 +85,8 @@ static void follow_percent_bis(char nxt_c, va_list list, int *count)
     }
 }
 
-static void follow_percent(char nxt_c, va_list list, int *count)
+static void follow_percent(char nxt_c, va_list list, int *count,
+    int width)
 {
     switch (nxt_c) {
         case '%':
@@ -93,14 +96,14 @@ static void follow_percent(char nxt_c, va_list list, int *count)
             *count += my_putchar(va_arg(list, int));
             break;
         case 's':
-            *count += my_putstr(va_arg(list, char*));
+            *count += my_putstr(va_arg(list, char *));
             break;
         case 'i':
         case 'd':
-            *count += my_put_nbr(va_arg(list, int));
+            *count += pad_nbr(va_arg(list, int), width);
             break;
         default:
-            follow_percent_bis(nxt_c, list, count);
+            follow_percent_bis(nxt_c, list, count, width);
             break;
     }
 }
@@ -110,16 +113,18 @@ int my_printf(const char *format, ...)
     va_list list;
     int i = 0;
     int count = 0;
+    int width = 0;
 
     va_start(list, format);
     for (; format[i] != '\0'; i++) {
         if (format[i] == '%' && format[i + 1] != '\0') {
-            follow_percent(format[i + 1], list, &count);
             i++;
+            width = get_width(format, &i);
+            follow_percent(format[i], list, &count, width);
         } else {
             count += my_putchar(format[i]);
         }
     }
     va_end(list);
-    return count;
+    return (count);
 }

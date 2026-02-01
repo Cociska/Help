@@ -49,6 +49,7 @@ SRC	= $(PATH_LIBMY)my_compute_power_rec.c \
       $(PATH_LIBPRINTF)my_put_oct.c \
       $(PATH_LIBPRINTF)my_put_hex.c \
       $(PATH_LIBPRINTF)my_printf.c \
+	  $(PATH_LIBPRINTF)my_printf_format.c \
 	  $(PATH_LIBPRINTF)my_put_pointer.c \
 	  $(PATH_LIBPRINTF)my_isinf.c \
 	  $(PATH_LIBPRINTF)my_isnan.c \
@@ -70,7 +71,8 @@ COVERAGE_SRC 	= \
     $(PATH_LIBPRINTF)my_put_float_sci.c \
     $(PATH_LIBPRINTF)my_put_ieee.c \
 	$(PATH_LIBPRINTF)my_put_bin.c \
-    $(PATH_LIBPRINTF)my_printf.c
+    $(PATH_LIBPRINTF)my_printf.c \
+    $(PATH_LIBPRINTF)my_printf_format.c
 
 
 TESTS_SRC  = $(PATH_TESTS)test_my_put_float.c \
