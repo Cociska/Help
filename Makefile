@@ -1,87 +1,61 @@
-## EPITECH PROJECT, 2024
-## BSQ
-## Clean Makefile inspired by yours
+##
+## EPITECH PROJECT, 2026
+## makefile
+## File description:
+## makefile for secured
+##
 
-CC		= epiclang
-CFLAGS		= -Werror -Wall -Wextra
-TEST_CFLAGS	= --coverage -lcriterion
+C_RESET   = \033[0m
+C_BOLD    = \033[1m
 
-SRC_PATH	= src/
-FILE_PATH	= src/file/
-ALGO_PATH	= src/algo/
-UTILS_PATH	= src/utils/
-TESTS_PATH	= tests/
-ASSET_PATH	= Assets/
+C_GREEN   = \033[32m
+C_BLUE    = \033[34m
+C_CYAN    = \033[36m
+C_YELLOW  = \033[93m
+C_PURPLE  = \033[35m
+C_ORANGE  = \033[38;5;208m
 
-BINARY		= setting_up
-TEST_BIN	= unit_tests
+CC		= 	epiclang
 
-SRC	= \
-	$(SRC_PATH)main.c \
-	$(FILE_PATH)read_file.c \
-	$(FILE_PATH)parse_lines.c \
-	$(ALGO_PATH)build_tab.c \
-	$(ALGO_PATH)find_biggest_square.c \
-	$(ALGO_PATH)fill_square.c \
-	$(UTILS_PATH)my_strlen.c \
-	$(UTILS_PATH)my_putchar.c \
-	$(UTILS_PATH)my_putstr.c \
-	$(UTILS_PATH)my_getnbr.c \
-    $(ALGO_PATH)map_gen.c \
-	$(UTILS_PATH)print_file.c
+SRC = 	src/main.c \
+		src/parsing.c \
+		src/help.c \
+		src/auth.c \
+		src/accounts.c \
+		src/policy.c
 
-SRC_TEST	= \
-	$(FILE_PATH)read_file.c \
-	$(FILE_PATH)parse_lines.c \
-	$(ALGO_PATH)build_tab.c \
-	$(ALGO_PATH)find_biggest_square.c \
-	$(ALGO_PATH)fill_square.c \
-	$(UTILS_PATH)my_strlen.c \
-	$(UTILS_PATH)my_putchar.c \
-	$(UTILS_PATH)my_putstr.c \
-	$(UTILS_PATH)print_file.c \
-	$(UTILS_PATH)my_getnbr.c \
-	$(ALGO_PATH)map_gen.c
+OBJ		= 	$(SRC:.c=.o)
 
-OBJ	= $(SRC:.c=.o)
+NAME      = my_sudo
 
-TESTS	= 	$(TESTS_PATH)test_setting_up.c \
-			$(TESTS_PATH)tests_build_tab.c \
-			$(TESTS_PATH)tests_my_putchar.c \
-			$(TESTS_PATH)tests_my_putstr.c \
-			$(TESTS_PATH)tests_my_strlen.c \
-			$(TESTS_PATH)tests_parse_lines.c \
-			$(TESTS_PATH)tests_print_file.c \
-			$(TESTS_PATH)tests_find_biggest_square.c \
-			$(TESTS_PATH)tests_read_file.c \
-			$(TESTS_PATH)tests_map_gen.c \
-			$(TESTS_PATH)tests_my_getnbr.c
+CFLAGS	= 	-Wall -Wextra -W
+LDLIBS  =   -lcrypt
 
-$(BINARY): $(OBJ)
-	@$(CC) -o $(BINARY) $(OBJ)
-	@echo "Compiled (^_^)"
+all: $(NAME)
+
+
+$(NAME): $(OBJ)
+	@$(CC) -o $(NAME) $(OBJ) $(LDLIBS)
+	@echo "$(C_GREEN)Compiled (^_^)$(C_RESET)"
 
 %.o: %.c
-	@echo Compiling "$<"
+	@echo "$(C_BLUE)Compiling $<$(C_RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJ) *.gcda *.gcno *.txt
-	@echo "Object files cleaned"
+	@clear
+	@rm -f $(OBJ)
+	@echo "$(C_BLUE)Object files removed :D$(C_RESET)"
+	@rm -f *.gcda *.gcno *.gcov
+	@echo "$(C_BLUE)Test artifacts cleaned ;)$(C_RESET)"
+	@rm -rf html_report coverage.info coverage_filtered.info
+	@echo "$(C_BLUE)Coverage files deleted :P$(C_RESET)"
 
 fclean: clean
-	@rm -f $(BINARY) $(TEST_BIN)
-	@echo "Full clean :3"
+	@rm -f $(NAME) $(TEST_BIN)
+	@echo "$(C_CYAN)Binary removed <_<$(C_RESET)"
 
-re: fclean $(BINARY)
+re: fclean all
+	@echo "$(C_BOLD)$(C_YELLOW)Project rebuilt successfully \\o/$(C_RESET)"
 
-unit_tests:
-	$(CC) $(CFLAGS) $(TEST_CFLAGS) $(SRC_TEST) $(TESTS) -o $(TEST_BIN) --coverage
-
-run_tests: unit_tests
-	./$(TEST_BIN)
-
-test:
-	cc $(CFLAGS) $(TEST_CFLAGS) $(SRC_TEST) $(TESTS) -o $(TEST_BIN) --coverage
-	./$(TEST_BIN)
-	gcovr --exclude tests/
+.PHONY: all clean fclean re

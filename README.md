@@ -1,53 +1,41 @@
-# Setting Up
+# my_sudo
 
-## 📌 Current Features
+`my_sudo` is a simplified, student-friendly re-implementation of the basic behavior of the Unix `sudo` command.  
+Its goal is **not** to replace the real `sudo`, but to demonstrate how privilege checking, argument parsing, and helper messages can be implemented in C.
 
-* Full file handling (`read_file`, `parse_lines`)
-* Complete algorithm suite (tab building, biggest square search, square filling)
-* Utility library (string functions, printing, etc.)
-* Criterion tests with high coverage (90–100%)
-* Improved Makefile: debug, coverage, tests, test_run
+## Features
+- Basic command-line parsing
+- Support for the `-h` `-g` `-u` flag
+- Clean and modular C code organization
+- Unit tests for the help flag
 
-## 🔧 Build
+## Repository Structure
+```
+.
+├── include
+│   └── my_sudo.h
+├── Makefile
+├── README.md
+├── src
+│   ├── help.c
+│   ├── parsing.c
+|   └── main.c
+└── tests
+    └── test_h_flag.c
+```
 
+## Build & Run
+### Build
 ```
 make
 ```
 
-## ▶️ Run
-
+### Run
 ```
-./setting_up <map_file>
-```
-
-## 🧪 Run tests (Criterion)
-
-```
-make test
+./my_sudo [options]
 ```
 
-## 🚀 Run tests + auto-exec (test_run)
-
+### Help
 ```
-make test_run
+./my_sudo -h
 ```
-
-## 🧹 Clean
-
-```
-make clean
-```
-
-## 🗑 Full clean
-
-```
-make fclean
-```
-
-## 🔄 Rebuild
-
-```
-make re
-```
-
-utilise llui

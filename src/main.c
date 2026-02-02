@@ -1,50 +1,106 @@
 /*
 ** EPITECH PROJECT, 2025
-** bsq_full
+** my_sudo_80
 ** File description:
 ** main
 */
 
-#include "../include/setting_up.h"
+#include "../include/my_sudo.h"
 
-static int solve_and_print(char **map)
+static void print_not_allowed(const char *user)
 {
-    int **tab = NULL;
-    int i = 0;
+    write(2, user, strlen(user));
+    write(2, " is not in the my_sudoers file.\n", 32);
+}
 
-    if (!map)
+static int load_current_user(char *name, uid_t *uid, gid_t *gid)
+{
+    *uid = getuid();
+    if (find_user_by_uid(*uid, name, 256) != 0)
         return 84;
-    tab = build_tab(map);
-    if (!tab)
+    if (find_user_by_name(name, uid, gid) != 0)
         return 84;
-    find_biggest_square(tab, map);
-    for (i = 0; map[i]; i++) {
-        my_putstr(map[i]);
-        my_putchar('\n');
+    return 0;
+}
+
+static int resolve_target(const options_t *opt, uid_t *uid, gid_t *gid)
+{
+    *uid = 0;
+    *gid = 0;
+    if (opt->user) {
+        if (find_user_by_name(opt->user, uid, gid) != 0)
+            return 84;
+    }
+    if (opt->group) {
+        if (find_group_by_name(opt->group, gid) != 0)
+            return 84;
     }
     return 0;
 }
 
-int main(int ac, char **av)
+static int run_command(parsed_t *p)
 {
-    char **map = NULL;
-    int size = 0;
+    uid_t uid = 0;
+    gid_t gid = 0;
 
-    if (ac == 2) {
-        map = read_file(av[1]);
-        if (!map)
-            return 84;
-        return solve_and_print(map);
-    }
-    if (ac == 3) {
-        size = my_getnbr(av[1]);
-        if (size <= 0)
-            return 84;
-        map = map_gen(size, av[2]);
-        return solve_and_print(map);
-    }
-    my_putstr("Usage:\n");
-    my_putstr("./setting_up <map_file>\n");
-    my_putstr("./setting_up <size> <pattern>\n");
+    if (resolve_target(&p->options, &uid, &gid) != 0)
+        return 84;
+    if (setgid(gid) != 0 || setuid(uid) != 0)
+        return 84;
+    execvp(p->command[0], p->command);
     return 84;
+}
+
+static int auth_current_user(void)
+{
+    char username[256];
+
+    if (getuid() == 0)
+        return 0;
+    if (find_user_by_uid(getuid(), username, sizeof(username)) != 0)
+        return 84;
+    return auth_user(username);
+}
+
+static int check_policy(void)
+{
+    char username[256];
+    uid_t uid = 0;
+    gid_t gid = 0;
+    int allowed = 0;
+
+    if (load_current_user(username, &uid, &gid) != 0)
+        return 84;
+    if (uid == 0)
+        return 0;
+    allowed = is_user_allowed(username, uid, gid);
+    if (allowed == 84)
+        return 84;
+    if (allowed != 0)
+        print_not_allowed(username);
+    return allowed;
+}
+
+static int run_my_sudo(parsed_t *p)
+{
+    if (auth_current_user() != 0)
+        return 84;
+    if (check_policy() != 0)
+        return 84;
+    return run_command(p);
+}
+
+int main(int argc, char **argv)
+{
+    parsed_t p = parsing(argc, argv);
+
+    if (p.options.h_flag) {
+        print_help(1);
+        return 0;
+    }
+    if (p.options.invalid || !p.command) {
+        print_help(2);
+        return 84;
+    }
+    return run_my_sudo(&p);
 }
