@@ -1,25 +1,53 @@
-📝 Project my_printf :
+# Setting Up
 
-This project involves creating a custom implementation of the printf function in C, following the C99 standard. The objective is to replicate the functionality of the standard printf, which handles formatted output, without implementing internal buffering. The custom printf should accept variable arguments, parse the format string, and print the appropriate output to the terminal.
+## 📌 Current Features
 
-We share our task on Trello, you can check theme [here](https://trello.com/invite/b/68efcca9a68126fd41f07fae/ATTI71a4e9ad58a34cdec8c59166f51032eaFA8951A2/project-myprintf)
+* Full file handling (`read_file`, `parse_lines`)
+* Complete algorithm suite (tab building, biggest square search, square filling)
+* Utility library (string functions, printing, etc.)
+* Criterion tests with high coverage (90–100%)
+* Improved Makefile: debug, coverage, tests, test_run
 
-Makefile commands :
+## 🔧 Build
 
-make : compile all files on lib/my & lib/my_printf, and create a libmy.a file on root
+```
+make
+```
 
-make clean : remove all .o files
+## ▶️ Run
 
-make tclean : remove all .gcda .gcno and also the binary named unit_tests
+```
+./setting_up <map_file>
+```
 
-make fclean : do "make clean" command and also remove the libmy.a file on root
+## 🧪 Run tests (Criterion)
 
-make re : remove all .o files and do "make" command
+```
+make test
+```
 
-make compile : create a.out file of my_printf.c
+## 🚀 Run tests + auto-exec (test_run)
 
-make unit_tests : do "fclean" & "libmy.a" commands and then run the tests with libmy.a
+```
+make test_run
+```
 
-make compile_file FILE="file path" : recompile a specific file (faster than recompiling all files)
+## 🧹 Clean
 
-make test_main : "make compile" command but running with the main at root (for tests)
+```
+make clean
+```
+
+## 🗑 Full clean
+
+```
+make fclean
+```
+
+## 🔄 Rebuild
+
+```
+make re
+```
+
+utilise llui
