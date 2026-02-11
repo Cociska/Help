@@ -1,0 +1,3 @@
+chdir = cd
+getcwd = pwd
+fork = multi process ???

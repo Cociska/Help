@@ -1,9 +1,16 @@
-##
-## EPITECH PROJECT, 2026
-## makefile
-## File description:
-## makefile for secured
-##
+# ==================================================
+# Compilers & Flags
+# ==================================================
+
+CC              = epiclang
+CFLAGS          = -Wall -Wextra -Werror -Iinclude
+CSFMLFLAGS      = -lcsfml-window -lcsfml-graphics -lcsfml-audio -lcsfml-system
+MATHSFLAGS      = -lm
+CRITERION_FLAGS = -lcriterion --coverage
+
+# ==================================================
+# Colors
+# ==================================================
 
 C_RESET   = \033[0m
 C_BOLD    = \033[1m
@@ -15,32 +22,106 @@ C_YELLOW  = \033[93m
 C_PURPLE  = \033[35m
 C_ORANGE  = \033[38;5;208m
 
-CC		= 	epiclang
+# ==================================================
+# Paths & Files
+# ==================================================
 
-SRC = 	src/main.c \
-		src/parsing.c \
-		src/help.c \
-		src/auth.c \
-		src/accounts.c \
-		src/policy.c
+BROWSER    = firefox
 
-OBJ		= 	$(SRC:.c=.o)
+SCRIPTS_PATH    =  ~/Makefile/scripts
+SRC_PATH   = src/
+TESTS_PATH = tests/
+UTILS_PATH = utils/
 
-NAME      = my_sudo
+SRC =	$(UTILS_PATH)my_putchar.c \
+		$(UTILS_PATH)my_putstr.c \
+		$(UTILS_PATH)my_strlen.c \
+		$(UTILS_PATH)my_putcolor.c \
+		$(UTILS_PATH)my_strcmp.c \
+		$(UTILS_PATH)my_strncmp.c \
+		$(UTILS_PATH)is_exit.c \
+		$(SRC_PATH)print_env.c \
+		$(SRC_PATH)exit_case.c \
+		$(SRC_PATH)print_prompt.c \
+		$(SRC_PATH)mini_shell.c
 
-CFLAGS	= 	-Wall -Wextra -W
-LDLIBS  =   -lcrypt
+SRC_TESTS = $(TESTS_PATH)tests.c
+
+OBJ       = $(SRC:.c=.o)
+
+NAME      = mysh
+TEST_BIN  = test_runner
+
+# ==================================================
+# Build rules
+# ==================================================
 
 all: $(NAME)
 
-
 $(NAME): $(OBJ)
-	@$(CC) -o $(NAME) $(OBJ) $(LDLIBS)
+	@$(CC) -o $(NAME) $(OBJ)
 	@echo "$(C_GREEN)Compiled (^_^)$(C_RESET)"
 
 %.o: %.c
 	@echo "$(C_BLUE)Compiling $<$(C_RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+auto_build:
+	@clear
+	@echo "Recommendation : open in a background terminal :P"
+	@$(SCRIPTS_PATH)/auto_build.sh
+
+# ==================================================
+# Run & Debug
+# ==================================================
+
+run:
+	@clear
+	all
+	@./$(NAME)
+	@echo "$(C_GREEN)Program executed correctly :<$(C_RESET)"
+
+docker:
+	@clear
+	@echo "$(C_BLUE)Starting Epitech Docker...$(C_RESET)"
+	@docker run -it -v ./:/usr/app epitechcontent/epitest-docker:latest
+
+debug:
+	@clear
+	@gcc -g3 $(SRC) -o $(NAME)_debug $(CFLAGS)
+	@echo "$(C_CYAN)>>> Starting GDB...$(C_RESET)"
+	@gdb -ex "break main" -ex "run" ./$(NAME)_debug
+	@rm -f $(NAME)_debug
+
+leaks:
+	@clear
+	all
+	@valgrind --leak-check=full ./$(NAME)
+
+# ==================================================
+# Tests & Coverage
+# ==================================================
+
+tests:
+	@clear
+	@gcc $(CFLAGS) $(SRC) $(SRC_TESTS) -o $(TEST_BIN) $(CRITERION_FLAGS)
+	@echo "$(C_YELLOW)Tests compiled :9$(C_RESET)"
+	@./$(TEST_BIN)
+	@echo "$(C_GREEN)Tests executed ^^;$(C_RESET)"
+
+coverage: tests
+	@lcov -c -d . -o coverage.info --ignore-errors mismatch
+	@echo "$(C_CYAN)Coverage data collected o_o$(C_RESET)"
+	@lcov -r coverage.info "*/tests/*" -o coverage_filtered.info
+	@echo "$(C_CYAN)Test files removed from coverage report ^.-$(C_RESET)"
+	@genhtml coverage_filtered.info -o html_report
+	@echo "$(C_CYAN)HTML coverage report generated ^^;$(C_RESET)"
+	@$(BROWSER) html_report/index.html
+	@echo "$(C_GREEN)Coverage report opened in browser :)$(C_RESET)"
+
+# ==================================================
+# Cleaning
+# ==================================================
 
 clean:
 	@clear
@@ -52,10 +133,188 @@ clean:
 	@echo "$(C_BLUE)Coverage files deleted :P$(C_RESET)"
 
 fclean: clean
-	@rm -f $(NAME) $(TEST_BIN)
+	@rm -f $(NAME)
 	@echo "$(C_CYAN)Binary removed <_<$(C_RESET)"
 
-re: fclean all
+re: 	fclean all
 	@echo "$(C_BOLD)$(C_YELLOW)Project rebuilt successfully \\o/$(C_RESET)"
 
-.PHONY: all clean fclean re
+# ==================================================
+# Git
+# ==================================================
+
+commit:
+	@clear
+	@$(SCRIPTS_PATH)/commit.sh
+
+restore:
+	@clear
+	@$(SCRIPTS_PATH)/restore.sh
+
+branch:
+	@clear
+	@$(SCRIPTS_PATH)/branch.sh
+
+git_log:
+	@clear
+	@$(SCRIPTS_PATH)/git_log.sh
+
+# ==================================================
+# Info rules
+# ==================================================
+
+count:
+	@clear
+	@$(SCRIPTS_PATH)/count.sh
+
+stats:
+	@clear
+	@$(SCRIPTS_PATH)/stats.sh
+
+# ==================================================
+# Fun & focus
+# ==================================================
+
+star_wars:
+	@$(SCRIPTS_PATH)/star_wars.sh
+
+pomodoro:
+	@clear
+	@$(SCRIPTS_PATH)/pomodoro.sh
+
+weather:
+	@clear
+	@$(SCRIPTS_PATH)/weather.sh
+
+coffee:
+	@clear
+	@$(SCRIPTS_PATH)/coffee.sh
+
+joke:
+	@$(SCRIPTS_PATH)/joke.sh
+
+radio:
+	@$(SCRIPTS_PATH)/radio.sh
+	
+# ==================================================
+# Project Tracking
+# ==================================================
+
+project_start:
+	@$(SCRIPTS_PATH)/project_start.sh
+
+project_stop:
+	@$(SCRIPTS_PATH)/project_stop.sh
+
+project:
+	@clear
+	@$(SCRIPTS_PATH)/project.sh
+
+# ==================================================
+# AI Assistant
+# ==================================================
+
+api:
+	@$(SCRIPTS_PATH)/api.sh
+
+claude:
+	@$(SCRIPTS_PATH)/claude.py $(MSG)
+	
+claude_debug:
+	@$(SCRIPTS_PATH)/claude_debug.sh
+
+# ==================================================
+# Update & Maintenance
+# ==================================================
+
+update:
+	@clear
+	@$(SCRIPTS_PATH)/update.sh
+	
+uninstall:
+	@$(SCRIPTS_PATH)/uninstall.sh
+
+# ==================================================
+# Help & menu
+# ==================================================
+
+menu:
+	@clear
+	@$(SCRIPTS_PATH)/menu.sh
+
+help:
+	@echo ""
+	@echo "$(C_BOLD)$(C_CYAN)⚡ God Tier Makefile — available targets$(C_RESET)"
+	@echo ""
+	@echo "$(C_BOLD)$(C_GREEN)Build & Run$(C_RESET)"
+	@echo "  $(C_GREEN)make$(C_RESET)              Compile the project"
+	@echo "  $(C_GREEN)make run$(C_RESET)          Compile and run"
+	@echo "  $(C_GREEN)make auto_build$(C_RESET)   Watch mode (rebuild on save)"
+	@echo "  $(C_GREEN)make debug$(C_RESET)        Debug build + launch GDB"
+	@echo "  $(C_GREEN)make docker$(C_RESET)       Launch Epitech Docker env"
+	@echo "  $(C_GREEN)make leaks$(C_RESET)        Valgrind (memory leaks)"
+	@echo ""
+	@echo "$(C_BOLD)$(C_YELLOW)Tests & Coverage$(C_RESET)"
+	@echo "  $(C_YELLOW)make tests$(C_RESET)        Run unit tests (Criterion)"
+	@echo "  $(C_YELLOW)make coverage$(C_RESET)     Generate & open HTML coverage report"
+	@echo ""
+	@echo "$(C_BOLD)$(C_BLUE)Cleaning$(C_RESET)"
+	@echo "  $(C_BLUE)make clean$(C_RESET)        Remove objects + test/coverage files"
+	@echo "  $(C_BLUE)make fclean$(C_RESET)       Clean + remove binary"
+	@echo "  $(C_BLUE)make re$(C_RESET)           Full rebuild"
+	@echo ""
+	@echo "$(C_BOLD)$(C_ORANGE)Git (fzf)$(C_RESET)"
+	@echo "  $(C_ORANGE)make commit$(C_RESET)       Commit & push"
+	@echo "  $(C_ORANGE)make branch$(C_RESET)       Switch / create branch"
+	@echo "  $(C_ORANGE)make restore$(C_RESET)      Restore files (interactive)"
+	@echo "  $(C_ORANGE)make git_log$(C_RESET)      Interactive git log"
+	@echo ""
+	@echo "$(C_BOLD)$(C_CYAN)Info$(C_RESET)"
+	@echo "  $(C_CYAN)make count$(C_RESET)        Count C lines"
+	@echo "  $(C_CYAN)make stats$(C_RESET)        Project statistics"
+	@echo ""
+	@echo "$(C_BOLD)$(C_PURPLE)Focus & Fun$(C_RESET)"
+	@echo "  $(C_PURPLE)make pomodoro$(C_RESET)     Pomodoro Lo-Fi session"
+	@echo "  $(C_PURPLE)make coffee$(C_RESET)       Coffee break"
+	@echo "  $(C_PURPLE)make weather$(C_RESET)      Show weather"
+	@echo "  $(C_PURPLE)make joke$(C_RESET)         Random dev joke"
+	@echo "  $(C_PURPLE)make radio$(C_RESET)        Lo-Fi radio (background)"
+	@echo "  $(C_PURPLE)make star_wars$(C_RESET)    Star Wars ASCII"
+	@echo ""
+	@echo "$(C_BOLD)$(C_ORANGE)Project Tracking$(C_RESET)"
+	@echo "  $(C_ORANGE)make project_start$(C_RESET)  Start timer (create/select project)"
+	@echo "  $(C_ORANGE)make project_stop$(C_RESET)   Stop current timer & save"
+	@echo "  $(C_ORANGE)make project$(C_RESET)        View time stats per project"
+	@echo ""
+	@echo "$(C_BOLD)$(C_ORANGE)AI$(C_RESET)"
+	@echo "  $(C_ORANGE)make api$(C_RESET)         Setup Claude API"
+	@echo "  $(C_ORANGE)make claude$(C_RESET)      Ask Claude from terminal"
+	@echo "  $(C_ORANGE)make claude_fix$(C_RESET)  AI fix for compilation errors"
+	@echo ""
+	@echo "$(C_BOLD)$(C_YELLOW)Maintenance$(C_RESET)"
+	@echo "  $(C_YELLOW)make update$(C_RESET)      Update scripts"
+	@echo "  $(C_YELLOW)make uninstall$(C_RESET)   Uninstall tools"
+	@echo ""
+	@echo "$(C_BOLD)$(C_CYAN)UI$(C_RESET)"
+	@echo "  $(C_CYAN)make menu$(C_RESET)         Interactive menu"
+	@echo "  $(C_CYAN)make signature$(C_RESET)    Show signature"
+	@echo "  $(C_CYAN)make help$(C_RESET)         Show this help"
+	@echo ""
+	@$(MAKE) --no-print-directory signature
+	@echo ""
+
+
+signature:
+	@$(SCRIPTS_PATH)/signature.sh
+
+.PHONY: \
+	all run auto_build docker debug leaks \
+	tests coverage \
+	clean fclean re \
+	commit restore branch git_log \
+	count stats \
+	api claude claude_debug \
+	update uninstall \
+	menu help signature \
+	star_wars pomodoro coffee weather joke radio \
+	project_start project_stop project
