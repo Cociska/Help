@@ -52,8 +52,8 @@ char **my_str_to_word_array(const char *str)
         if (str[i] && !is_sep(str[i]) && start < 0)
             start = i;
         if ((is_sep(str[i]) || !str[i]) && start >= 0) {
-            w++;
             tab[w] = dup_word(str, start, i);
+            w++;
             start = -1;
         }
         if (!str[i])

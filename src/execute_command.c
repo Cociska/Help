@@ -29,11 +29,14 @@ int is_builtin(char *command)
 
 void execute_command(char **args, char **env)
 {
-    (void)args;
-    (void)env;
+    if (!args || !args[0])
+        return;
     if (is_builtin(args[0])) {
+        if (my_strcmp(args[0], "cd") == 0) {
+            builtin_cd(env, args);
+        }
         if (my_strcmp(args[0], "env") == 0) {
-            print_env(env);
+            buildin_env(env);
         }
     }
 }

@@ -38,12 +38,19 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(LIBMY_PATH)my_putstr.c \
 		$(LIBMY_PATH)my_strlen.c \
 		$(LIBMY_PATH)my_strcmp.c \
+		$(LIBMY_PATH)my_strncmp.c \
 		$(LIBMY_PATH)my_str_to_word_array.c \
+		$(LIBMY_PATH)my_strdup.c \
+		$(LIBMY_PATH)my_strdup_tab.c \
 		$(UTILS_PATH)my_putcolor.c \
 		$(UTILS_PATH)is_exit.c \
+		$(UTILS_PATH)get_env.c \
+		$(UTILS_PATH)free_tab.c \
+		$(UTILS_PATH)strtab_len.c \
 		$(SRC_PATH)exit_case.c \
 		$(SRC_PATH)print_prompt.c \
-		$(SRC_PATH)print_env.c \
+		$(SRC_PATH)builtin_env.c \
+		$(SRC_PATH)builtin_cd.c \
 		$(SRC_PATH)execute_command.c \
 		$(SRC_PATH)mini_shell.c
 
@@ -79,7 +86,7 @@ auto_build:
 
 run:
 	@clear
-	all
+	@$(MAKE) all
 	@./$(NAME)
 	@echo "$(C_GREEN)Program executed correctly :<$(C_RESET)"
 
@@ -95,9 +102,9 @@ debug:
 	@gdb -ex "break main" -ex "run" ./$(NAME)_debug
 	@rm -f $(NAME)_debug
 
-leaks:
+leaks: 
 	@clear
-	all
+	@$(MAKE) all
 	@valgrind --leak-check=full ./$(NAME)
 
 # ==================================================
