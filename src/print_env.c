@@ -1,15 +1,17 @@
 /*
 ** EPITECH PROJECT, 2026
-** Mini-Shell-1
+** G-PSU-200
 ** File description:
 ** print_env
 */
 
-#include "mini_shell.h"
+#include "my.h"
 
 void print_env(char **env)
 {
-    for (int i = 0; env[i] != NULL; i++) {
+    int i = 0;
+
+    for (; env[i] != NULL; i++){
         my_putstr(env[i]);
         my_putchar('\n');
     }

@@ -5,7 +5,7 @@
 ** my_putstr
 */
 
-#include "mini_shell.h"
+#include "my.h"
 
 void my_putstr(char const *str)
 {

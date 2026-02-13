@@ -29,20 +29,22 @@ C_ORANGE  = \033[38;5;208m
 BROWSER    = firefox
 
 SCRIPTS_PATH    =  ~/Makefile/scripts
+LIBMY_PATH      =  lib/my/
 SRC_PATH   = src/
 TESTS_PATH = tests/
 UTILS_PATH = utils/
 
-SRC =	$(UTILS_PATH)my_putchar.c \
-		$(UTILS_PATH)my_putstr.c \
-		$(UTILS_PATH)my_strlen.c \
+SRC =	$(LIBMY_PATH)my_putchar.c \
+		$(LIBMY_PATH)my_putstr.c \
+		$(LIBMY_PATH)my_strlen.c \
+		$(LIBMY_PATH)my_strcmp.c \
+		$(LIBMY_PATH)my_str_to_word_array.c \
 		$(UTILS_PATH)my_putcolor.c \
-		$(UTILS_PATH)my_strcmp.c \
-		$(UTILS_PATH)my_strncmp.c \
 		$(UTILS_PATH)is_exit.c \
-		$(SRC_PATH)print_env.c \
 		$(SRC_PATH)exit_case.c \
 		$(SRC_PATH)print_prompt.c \
+		$(SRC_PATH)print_env.c \
+		$(SRC_PATH)execute_command.c \
 		$(SRC_PATH)mini_shell.c
 
 SRC_TESTS = $(TESTS_PATH)tests.c

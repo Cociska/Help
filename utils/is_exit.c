@@ -5,7 +5,7 @@
 ** is_exit
 */
 
-#include "mini_shell.h"
+#include "my.h"
 
 int is_exit(char *line)
 {

@@ -5,7 +5,8 @@
 ** print_prompt
 */
 
-#include "mini_shell.h"
+#include "my.h"
+#include "colors.h"
 
 void print_prompt(void)
 {

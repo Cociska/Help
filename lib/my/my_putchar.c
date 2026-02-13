@@ -5,7 +5,7 @@
 ** my_putchar
 */
 
-#include "mini_shell.h"
+#include "my.h"
 
 void my_putchar(char c)
 {

@@ -5,6 +5,7 @@
 ** exit_case
 */
 
+#include "my.h"
 #include "mini_shell.h"
 
 int exit_case(ssize_t status, char *line)
