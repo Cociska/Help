@@ -20,13 +20,12 @@
     #include <signal.h>   // signal, kill
     #include <errno.h>    // errno
 
-int exit_case(ssize_t status, char *line);
 void print_prompt(void);
 void execute_command(char **args, char **env);
 void buildin_env(char **env);
 int builtin_cd(char **env, char **args);
 
-int is_exit(char *line);
+char *remove_newline(char *str);
 char *get_env(char **env, char *name);
 int strtab_len(char **tab);
 void strtab_free(char **tab);

@@ -42,15 +42,20 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(LIBMY_PATH)my_str_to_word_array.c \
 		$(LIBMY_PATH)my_strdup.c \
 		$(LIBMY_PATH)my_strdup_tab.c \
+		$(LIBMY_PATH)my_strcat.c \
+		$(LIBMY_PATH)my_strcpy.c \
+		$(LIBMY_PATH)my_strchr.c \
 		$(UTILS_PATH)my_putcolor.c \
-		$(UTILS_PATH)is_exit.c \
 		$(UTILS_PATH)get_env.c \
 		$(UTILS_PATH)free_tab.c \
 		$(UTILS_PATH)strtab_len.c \
-		$(SRC_PATH)exit_case.c \
+		$(UTILS_PATH)str_merge.c \
+		$(UTILS_PATH)remove_newline.c \
 		$(SRC_PATH)print_prompt.c \
 		$(SRC_PATH)builtin_env.c \
 		$(SRC_PATH)builtin_cd.c \
+		$(SRC_PATH)builtin_setenv.c \
+		$(SRC_PATH)builtin_unsetenv.c \
 		$(SRC_PATH)execute_command.c \
 		$(SRC_PATH)mini_shell.c
 

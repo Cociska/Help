@@ -8,7 +8,7 @@
 #include "my.h"
 #include "mini_shell.h"
 
-int is_builtin(char *command)
+static int is_builtin(char *command)
 {
     char *builtins[] = {
         "cd",
@@ -27,16 +27,21 @@ int is_builtin(char *command)
     return 0;
 }
 
+static void execute_builtin(char **args, char **env)
+{
+    if (my_strcmp(args[0], "cd") == 0)
+        builtin_cd(env, args);
+    if (my_strcmp(args[0], "exit") == 0)
+        exit(0);
+    if (my_strcmp(args[0], "env") == 0)
+        buildin_env(env);
+}
+
 void execute_command(char **args, char **env)
 {
     if (!args || !args[0])
         return;
     if (is_builtin(args[0])) {
-        if (my_strcmp(args[0], "cd") == 0) {
-            builtin_cd(env, args);
-        }
-        if (my_strcmp(args[0], "env") == 0) {
-            buildin_env(env);
-        }
+        execute_builtin(args, env);
     }
 }

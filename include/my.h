@@ -19,5 +19,8 @@ int my_strncmp(char *s1, char *s2, int n);
 char **my_str_to_word_array(const char *str);
 char *my_strdup(const char *src);
 char **my_strdup_tab(char **tab);
+char *my_strcat(char *dest, const char *src);
+char *str_merge(char *str1, char *str2);
+char *my_strcpy(char *dest, const char *src);
 
 #endif //MINI_SHELL_1_MY_H
