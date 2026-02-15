@@ -5,7 +5,7 @@
 ** tab_len
 */
 
-int strtab_len(char **tab)
+int my_strlen_tab(char **tab)
 {
     int i = 0;
 

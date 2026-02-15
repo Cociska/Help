@@ -27,8 +27,9 @@ int builtin_cd(char **env, char **args);
 
 char *remove_newline(char *str);
 char *get_env(char **env, char *name);
-int strtab_len(char **tab);
 void strtab_free(char **tab);
 void free_tab_n(char **tab, int n);
+char *find_external_command(char *command, char **env);
+
 
 #endif // MINI_SHELL_1_FUNCTIONS_H

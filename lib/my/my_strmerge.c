@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2026
 ** Mini-shell
 ** File description:
-** str_merge
+** my_strmerge
 */
 
 #include "my.h"
 
-char *str_merge(char *str1, char *str2)
+char *my_strmerge(char *str1, char *str2)
 {
     char *result;
     int len1;

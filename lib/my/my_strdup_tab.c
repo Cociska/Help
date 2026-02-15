@@ -16,7 +16,7 @@ char **my_strdup_tab(char **tab)
 
     if (!tab)
         return NULL;
-    len = strtab_len(tab);
+    len = my_strlen_tab(tab);
     new_tab = malloc(sizeof(char *) * (len + 1));
     if (!new_tab)
         return NULL;

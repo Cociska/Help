@@ -39,9 +39,18 @@ static void execute_builtin(char **args, char **env)
 
 void execute_command(char **args, char **env)
 {
+    char *path = NULL;
+
     if (!args || !args[0])
         return;
     if (is_builtin(args[0])) {
         execute_builtin(args, env);
+    } else if ((find_external_command(args[0], env)) != NULL) {
+        path = find_external_command(args[0], env);
+        execve(path, args, env);
+        free(path);
+    } else {
+        my_putstr(args[0]);
+        my_putstr(": Command not found.\n");
     }
 }
