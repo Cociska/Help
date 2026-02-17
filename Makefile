@@ -47,6 +47,7 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(LIBMY_PATH)my_strchr.c \
 		$(LIBMY_PATH)my_strmerge.c \
 		$(LIBMY_PATH)my_strlen_tab.c \
+		$(LIBMY_PATH)my_add_array.c \
 		$(UTILS_PATH)my_putcolor.c \
 		$(UTILS_PATH)get_env.c \
 		$(UTILS_PATH)free_tab.c \
