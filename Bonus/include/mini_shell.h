@@ -19,7 +19,9 @@
     #include <sys/wait.h> // wait, waitpid, wait3, wait4 + macros WIF...
     #include <signal.h>   // signal, kill
     #include <errno.h>    // errno
+    #include <limits.h>   // PATH_MAX
 
+void print_prompt(void);
 void execute_command(char **args, char **env);
 void buildin_env(char **env);
 int builtin_cd(char **env, char **args);
@@ -34,5 +36,6 @@ int builtin_unsetenv(char ***env, char **args);
 int is_builtin(char *command);
 void handle_errors(int status);
 int handle_env_errors(char **args, char ***env, int x);
+int spawn_new_terminal(char ***env, const char *path);
 
 #endif // MINI_SHELL_1_FUNCTIONS_H

@@ -24,7 +24,7 @@ int builtin_cd(char **env, char **args)
     int result = 0;
     char *setenv_args[4] = {"setenv", "OLDPWD", pwd, NULL};
 
-    if (!pwd) {
+    if (!pwd){
         perror("getcwd");
         return 1;
     }

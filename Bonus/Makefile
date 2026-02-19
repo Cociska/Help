@@ -48,10 +48,12 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(LIBMY_PATH)my_strmerge.c \
 		$(LIBMY_PATH)my_strlen_tab.c \
 		$(LIBMY_PATH)my_put_nbr.c \
-		$(UTILS_PATH)my_getenv.c \
+		$(UTILS_PATH)my_putcolor.c \
+		$(LIBMY_PATH)my_getenv.c \
 		$(UTILS_PATH)free_tab.c \
 		$(UTILS_PATH)remove_newline.c \
 		$(UTILS_PATH)is_builtin.c \
+		$(SRC_PATH)print_prompt.c \
 		$(SRC_PATH)builtin_env.c \
 		$(SRC_PATH)builtin_cd.c \
 		$(SRC_PATH)builtin_setenv.c \
@@ -60,6 +62,7 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(SRC_PATH)find_external_command.c \
 		$(SRC_PATH)handle_errors.c \
 		$(SRC_PATH)handle_env_errors.c \
+		$(SRC_PATH)spawn_new_terminal.c \
 		$(SRC_PATH)mini_shell.c
 
 SRC_TESTS = $(TESTS_PATH)tests.c

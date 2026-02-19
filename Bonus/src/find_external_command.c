@@ -10,7 +10,7 @@
 
 char *check_absolute_path(char *command)
 {
-    if (command[0] == '/' || command[0] == '.') {
+    if (command[0] == '/' || command[0] == '.'){
         if (access(command, X_OK) == 0)
             return my_strdup(command);
         return NULL;
@@ -24,7 +24,7 @@ char *search_in_path(char *command, char *env_copy)
     char *full_path = NULL;
     char *temp = NULL;
 
-    while (token != NULL) {
+    while (token != NULL){
         temp = my_strmerge(token, "/");
         full_path = my_strmerge(temp, command);
         free(temp);
@@ -42,7 +42,7 @@ char *find_external_command(char *command, char **env)
     char *env_copy = my_strdup(path_env);
     char *result = check_absolute_path(command);
 
-    if (result != NULL) {
+    if (result != NULL){
         free(env_copy);
         return result;
     }

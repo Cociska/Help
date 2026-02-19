@@ -14,9 +14,9 @@ static void shell(char **env)
     char **args;
     size_t cap = 0;
 
-    while (1) {
-        my_putstr(" >$ ");
-        if (getline(&line, &cap, stdin) == -1) {
+    while (1){
+        print_prompt();
+        if (getline(&line, &cap, stdin) == -1){
             free(line);
             return;
         }
@@ -36,6 +36,8 @@ int main(int argc, char **argv, char **env)
 
     (void)argc;
     (void)argv;
+    if (spawn_new_terminal(&env, argv[0]))
+        return 0;
     if (!env || !env[0])
         return 1;
     env_copy = my_strdup_tab(env);
