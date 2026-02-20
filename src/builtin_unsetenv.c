@@ -8,6 +8,14 @@
 #include "my.h"
 #include "mini_shell.h"
 
+static void shift_env(char **env, int start)
+{
+    int j = start;
+
+    for (; env[j] != NULL; j++)
+        env[j] = env[j + 1];
+}
+
 int builtin_unsetenv(char ***env, char **args)
 {
     char *var;
@@ -18,7 +26,7 @@ int builtin_unsetenv(char ***env, char **args)
     for (int i = 0; (*env)[i] != NULL; i++) {
         if (my_strncmp((*env)[i], var, my_strlen(var)) == 0) {
             free((*env)[i]);
-            (*env)[i] = (*env)[i + 1];
+            shift_env(*env, i);
             break;
         }
     }

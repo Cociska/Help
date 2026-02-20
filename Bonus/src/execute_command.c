@@ -52,7 +52,7 @@ void execute_command(char **args, char **env)
     else if (path != NULL)
         execute_externe(args, env);
     else {
-        my_putstr(args[0]);
-        my_putstr(": Command not found.\n");
+        my_put_error(args[0]);
+        my_put_error(": Command not found.\n");
     }
 }

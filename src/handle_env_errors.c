@@ -10,8 +10,8 @@
 
 static int env_error(char *cmd, char *msg)
 {
-    my_putstr(cmd);
-    my_putstr(msg);
+    my_put_error(cmd);
+    my_put_error(msg);
     return 1;
 }
 
@@ -46,8 +46,12 @@ static int check_arg_count(char *cmd, char **args, int x)
 
 int handle_env_errors(char **args, char ***env, int x)
 {
-    char *cmd = (x == 1) ? "setenv" : "unsetenv";
+    char *cmd;
 
+    if (x == 1)
+        cmd = "setenv";
+    else
+        cmd = "unsetenv";
     if (*env == NULL)
         return env_error(cmd, ": Environment not initialized\n");
     if (check_arg_count(cmd, args, x) != 0)

@@ -30,7 +30,7 @@ int builtin_setenv(char ***env, char **args)
 
     new_var = malloc(sizeof(char) * (my_strlen(args[1]) + 2));
     if (!new_var) {
-        my_putstr("setenv: Memory allocation error\n");
+        my_put_error("setenv: Memory allocation error\n");
         return -1;
     }
     if (handle_env_errors(args, env, 1))

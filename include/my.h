@@ -25,5 +25,7 @@ char *my_strcpy(char *dest, const char *src);
 int my_strlen_tab(char **tab);
 void my_put_nbr(int nb);
 char *my_strchr(const char *s, int c);
+int my_put_error(char *str);
+void my_put_nbr_error(int nb);
 
 #endif //MINI_SHELL_1_MY_H

@@ -10,8 +10,8 @@
 
 static int env_error(char *cmd, char *msg)
 {
-    my_putstr(cmd);
-    my_putstr(msg);
+    my_put_error(cmd);
+    my_put_error(msg);
     return 1;
 }
 

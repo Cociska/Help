@@ -16,7 +16,7 @@ static void shell(char **env)
 
     while (1) {
         my_putstr(" >$ ");
-        if (getline(&line, &cap, stdin) == -1) {
+        if (getline(&line, &cap, stdin) == -1){
             free(line);
             return;
         }
@@ -24,7 +24,7 @@ static void shell(char **env)
             continue;
         line = remove_newline(line);
         args = my_str_to_word_array(line);
-        execute_command(args, env);
+        execute_command(args, &env);
         strtab_free(args);
     }
     free(line);

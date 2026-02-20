@@ -10,7 +10,7 @@
 
     #include <stdlib.h>   // malloc, free, exit
     #include <unistd.h>   /* getcwd, chdir, fork, execve,
-                            access, isatty, read, write, close, getpid */
+                                access, isatty, read, write, close, getpid */
     #include <dirent.h>   // opendir, readdir, closedir
     #include <sys/stat.h> // stat, lstat, fstat
     #include <fcntl.h>    // open
@@ -20,9 +20,9 @@
     #include <signal.h>   // signal, kill
     #include <errno.h>    // errno
 
-void execute_command(char **args, char **env);
+void execute_command(char **args, char ***env);
 void buildin_env(char **env);
-int builtin_cd(char **env, char **args);
+int builtin_cd(char ***env, char **args);
 int builtin_setenv(char ***env, char **args);
 
 char *remove_newline(char *str);

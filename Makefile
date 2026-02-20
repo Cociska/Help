@@ -48,7 +48,9 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(LIBMY_PATH)my_strmerge.c \
 		$(LIBMY_PATH)my_strlen_tab.c \
 		$(LIBMY_PATH)my_put_nbr.c \
-		$(UTILS_PATH)my_getenv.c \
+		$(LIBMY_PATH)my_put_error.c \
+		$(LIBMY_PATH)my_put_nbr_error.c \
+		$(LIBMY_PATH)my_getenv.c \
 		$(UTILS_PATH)free_tab.c \
 		$(UTILS_PATH)remove_newline.c \
 		$(UTILS_PATH)is_builtin.c \

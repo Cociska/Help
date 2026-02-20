@@ -8,23 +8,22 @@
 #include "my.h"
 #include "mini_shell.h"
 
-static void execute_builtin(char **args, char **env)
+static void execute_builtin(char **args, char ***env)
 {
     if (my_strcmp(args[0], "cd") == 0)
         builtin_cd(env, args);
     if (my_strcmp(args[0], "exit") == 0)
         exit(0);
     if (my_strcmp(args[0], "env") == 0)
-        buildin_env(env);
+        buildin_env(*env);
     if (my_strcmp(args[0], "setenv") == 0)
-        builtin_setenv(&env, args);
+        builtin_setenv(env, args);
     if (my_strcmp(args[0], "unsetenv") == 0)
-        builtin_unsetenv(&env, args);
+        builtin_unsetenv(env, args);
 }
 
-void execute_externe(char **args, char **env)
+void execute_externe(char **args, char **env, char *path)
 {
-    char *path = find_external_command(args[0], env);
     pid_t pid = fork();
     int status;
 
@@ -40,19 +39,22 @@ void execute_externe(char **args, char **env)
     }
 }
 
-void execute_command(char **args, char **env)
+void execute_command(char **args, char ***env)
 {
     char *path;
 
     if (!args || !args[0])
         return;
-    path = find_external_command(args[0], env);
-    if (is_builtin(args[0]))
+    if (is_builtin(args[0])) {
         execute_builtin(args, env);
-    else if (path != NULL)
-        execute_externe(args, env);
-    else {
-        my_putstr(args[0]);
-        my_putstr(": Command not found.\n");
+        return;
+    }
+    path = find_external_command(args[0], *env);
+    if (path != NULL){
+        execute_externe(args, *env, path);
+        free(path);
+    } else {
+        my_put_error(args[0]);
+        my_put_error(": Command not found.\n");
     }
 }

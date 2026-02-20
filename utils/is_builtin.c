@@ -11,9 +11,12 @@
 int is_builtin(char *command)
 {
     int i = 0;
-    char *builtins[6];
+    char **builtins;
 
     if (!command)
+        return (0);
+    builtins = malloc(sizeof(char *) * 6);
+    if (!builtins)
         return (0);
     builtins[0] = "cd";
     builtins[1] = "exit";
@@ -24,5 +27,6 @@ int is_builtin(char *command)
     for (; builtins[i] != NULL; i++)
         if (my_strcmp(command, builtins[i]) == 0)
             return 1;
+    free(builtins);
     return 0;
 }
