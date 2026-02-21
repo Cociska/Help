@@ -39,9 +39,14 @@ char *search_in_path(char *command, char *env_copy)
 char *find_external_command(char *command, char **env)
 {
     char *path_env = my_getenv(env, "PATH");
-    char *env_copy = my_strdup(path_env);
+    char *env_copy;
     char *result = check_absolute_path(command);
 
+    if (path_env == NULL)
+        return NULL;
+    env_copy = my_strdup(path_env);
+    if (!env_copy)
+        return NULL;
     if (result != NULL) {
         free(env_copy);
         return result;

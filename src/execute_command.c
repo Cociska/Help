@@ -8,12 +8,16 @@
 #include "my.h"
 #include "mini_shell.h"
 
-static void execute_builtin(char **args, char ***env)
+static void execute_builtin(char **args, char ***env, char *line)
 {
     if (my_strcmp(args[0], "cd") == 0)
         builtin_cd(env, args);
-    if (my_strcmp(args[0], "exit") == 0)
+    if (my_strcmp(args[0], "exit") == 0) {
+        free(line);
+        strtab_free(args);
+        strtab_free(*env);
         exit(0);
+    }
     if (my_strcmp(args[0], "env") == 0)
         buildin_env(*env);
     if (my_strcmp(args[0], "setenv") == 0)
@@ -39,14 +43,14 @@ void execute_externe(char **args, char **env, char *path)
     }
 }
 
-void execute_command(char **args, char ***env)
+void execute_command(char **args, char ***env, char *line)
 {
     char *path;
 
     if (!args || !args[0])
         return;
     if (is_builtin(args[0])) {
-        execute_builtin(args, env);
+        execute_builtin(args, env, line);
         return;
     }
     path = find_external_command(args[0], *env);

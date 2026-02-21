@@ -10,7 +10,6 @@
 
 int is_builtin(char *command)
 {
-    int i = 0;
     char **builtins;
 
     if (!command)
@@ -24,9 +23,11 @@ int is_builtin(char *command)
     builtins[3] = "setenv";
     builtins[4] = "unsetenv";
     builtins[5] = NULL;
-    for (; builtins[i] != NULL; i++)
-        if (my_strcmp(command, builtins[i]) == 0)
+    for (int i = 0; builtins[i] != NULL; i++)
+        if (my_strcmp(command, builtins[i]) == 0) {
+            free(builtins);
             return 1;
+        }
     free(builtins);
     return 0;
 }

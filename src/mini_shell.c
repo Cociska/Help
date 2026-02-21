@@ -24,7 +24,7 @@ static void shell(char **env)
             continue;
         line = remove_newline(line);
         args = my_str_to_word_array(line);
-        execute_command(args, &env);
+        execute_command(args, &env, line);
         strtab_free(args);
     }
     free(line);
