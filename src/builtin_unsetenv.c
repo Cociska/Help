@@ -16,20 +16,31 @@ static void shift_env(char **env, int start)
         env[j] = env[j + 1];
 }
 
+static void remove_var(char ***env, char *var)
+{
+    int i;
+    int len = my_strlen(var);
+
+    for (i = 0; (*env)[i] != NULL; i++) {
+        if (my_strncmp((*env)[i], var, len) == 0) {
+            free((*env)[i]);
+            shift_env(*env, i);
+            return;
+        }
+    }
+}
+
 int builtin_unsetenv(char ***env, char **args)
 {
     char *var;
+    int k;
 
     if (handle_env_errors(args, env, 2))
-        return -1;
-    var = my_strmerge(args[1], "=");
-    for (int i = 0; (*env)[i] != NULL; i++) {
-        if (my_strncmp((*env)[i], var, my_strlen(var)) == 0) {
-            free((*env)[i]);
-            shift_env(*env, i);
-            break;
-        }
+        return 1;
+    for (k = 1; args[k] != NULL; k++) {
+        var = my_strmerge(args[k], "=");
+        remove_var(env, var);
+        free(var);
     }
-    free(var);
     return 0;
 }

@@ -54,6 +54,7 @@ SRC =	$(LIBMY_PATH)my_putchar.c \
 		$(UTILS_PATH)free_tab.c \
 		$(UTILS_PATH)remove_newline.c \
 		$(UTILS_PATH)is_builtin.c \
+		$(UTILS_PATH)is_alpha.c \
 		$(SRC_PATH)builtin_env.c \
 		$(SRC_PATH)builtin_cd.c \
 		$(SRC_PATH)builtin_setenv.c \

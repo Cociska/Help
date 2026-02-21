@@ -7,12 +7,19 @@
 
 #include "my.h"
 
-void buildin_env(char **env)
+int buildin_env(char **env, char **args)
 {
-    int i = 0;
+    int i;
 
-    for (; env[i] != NULL; i++) {
+    if (args && args[1] != NULL) {
+        my_put_error("env: ‘");
+        my_put_error(args[1]);
+        my_put_error("’: No such file or directory\n");
+        return 127;
+    }
+    for (i = 0; env[i] != NULL; i++) {
         my_putstr(env[i]);
         my_putchar('\n');
     }
+    return 0;
 }

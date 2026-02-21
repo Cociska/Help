@@ -15,32 +15,31 @@ static int env_error(char *cmd, char *msg)
     return 1;
 }
 
-static int check_invalid_chars(char *cmd, char **args)
-{
-    if (my_strchr(args[1], '=') != NULL)
-        return env_error(cmd, ": Variable name must not contain '='\n");
-    if (my_strchr(args[1], ' ') != NULL)
-        return env_error(cmd, ": Variable name must not contain spaces\n");
-    if (args[2] && my_strchr(args[2], '=') != NULL)
-        return env_error(cmd, ": Variable value must not contain '='\n");
-    return 0;
-}
-
 static int check_name_syntax(char *cmd, char **args)
 {
+    int i;
+
     if (args[1][0] == '\0')
-        return env_error(cmd, ": Variable name must not be empty\n");
+        return env_error(cmd, ": Variable name must not be empty.\n");
     if (args[1][0] >= '0' && args[1][0] <= '9')
-        return env_error(cmd, ": Variable name must not start with a digit\n");
-    return check_invalid_chars(cmd, args);
+        return env_error(cmd, ": Variable name must begin with a letter.\n");
+    for (i = 0; args[1][i] != '\0'; i++) {
+        if (!is_alpha(args[1][i])) {
+            my_put_error(cmd);
+            my_put_error(": Variable name must contain ");
+            my_put_error("only alphanumeric characters.\n");
+            return 1;
+        }
+    }
+    return 0;
 }
 
 static int check_arg_count(char *cmd, char **args, int x)
 {
     if (!args[1])
-        return env_error(cmd, ": Too few arguments\n");
+        return env_error(cmd, ": Too few arguments.\n");
     if (x == 1 && args[3])
-        return env_error(cmd, ": Too many arguments\n");
+        return env_error(cmd, ": Too many arguments.\n");
     return 0;
 }
 
@@ -53,10 +52,10 @@ int handle_env_errors(char **args, char ***env, int x)
     else
         cmd = "unsetenv";
     if (*env == NULL)
-        return env_error(cmd, ": Environment not initialized\n");
+        return env_error(cmd, ": Environment not initialized.\n");
     if (check_arg_count(cmd, args, x) != 0)
         return 1;
-    if (check_name_syntax(cmd, args) != 0)
+    if (x == 1 && check_name_syntax(cmd, args) != 0)
         return 1;
     return 0;
 }

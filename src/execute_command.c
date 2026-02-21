@@ -8,57 +8,62 @@
 #include "my.h"
 #include "mini_shell.h"
 
-static void execute_builtin(char **args, char ***env, char *line)
+static int execute_builtin(char **args, char ***env)
 {
     if (my_strcmp(args[0], "cd") == 0)
-        builtin_cd(env, args);
-    if (my_strcmp(args[0], "exit") == 0) {
-        free(line);
-        strtab_free(args);
-        strtab_free(*env);
-        exit(0);
-    }
+        return builtin_cd(env, args);
     if (my_strcmp(args[0], "env") == 0)
-        buildin_env(*env);
+        return buildin_env(*env, args);
     if (my_strcmp(args[0], "setenv") == 0)
-        builtin_setenv(env, args);
+        return builtin_setenv(env, args);
     if (my_strcmp(args[0], "unsetenv") == 0)
-        builtin_unsetenv(env, args);
+        return builtin_unsetenv(env, args);
+    return 0;
 }
 
-void execute_externe(char **args, char **env, char *path)
+int execute_externe(char **args, char **env, char *path)
 {
     pid_t pid = fork();
     int status;
 
-    if (pid < 0)
+    if (pid < 0) {
         perror("fork");
-    else if (pid == 0) {
+        return 1;
+    }
+    if (pid == 0) {
         execve(path, args, env);
         perror("execve");
         exit(126);
-    } else {
-        waitpid(pid, &status, 0);
-        handle_errors(status);
     }
+    waitpid(pid, &status, 0);
+    handle_errors(status);
+    if (WIFEXITED(status))
+        return WEXITSTATUS(status);
+    if (WIFSIGNALED(status))
+        return WTERMSIG(status) + 128;
+    return 0;
 }
 
-void execute_command(char **args, char ***env, char *line)
+int execute_command(char **args, char ***env, char *line, int status)
 {
     char *path;
 
     if (!args || !args[0])
-        return;
-    if (is_builtin(args[0])) {
-        execute_builtin(args, env, line);
-        return;
+        return status;
+    if (my_strcmp(args[0], "exit") == 0) {
+        free(line);
+        strtab_free(args);
+        strtab_free(*env);
+        exit(status);
     }
+    if (is_builtin(args[0]))
+        return execute_builtin(args, env);
     path = find_external_command(args[0], *env);
-    if (path != NULL){
-        execute_externe(args, *env, path);
+    if (path != NULL) {
+        status = execute_externe(args, *env, path);
         free(path);
-    } else {
-        my_put_error(args[0]);
-        my_put_error(": Command not found.\n");
+        return status;
     }
+    my_put_error(my_strcat(args[0], ": Command not found.\n"));
+    return 1;
 }

@@ -8,7 +8,7 @@
 #include "my.h"
 #include "mini_shell.h"
 
-void free_env(char **env, char *var_name, char *new_var)
+int free_env(char **env, char *var_name, char *new_var)
 {
     int i;
     int var_len = my_strlen(var_name);
@@ -18,9 +18,10 @@ void free_env(char **env, char *var_name, char *new_var)
             env[i][var_len] == '=') {
             free(env[i]);
             env[i] = my_strdup(new_var);
-            return;
+            return 1;
         }
     }
+    return 0;
 }
 
 char **my_add_env(char **env, char *new_var, char *var_name)
@@ -29,7 +30,8 @@ char **my_add_env(char **env, char *new_var, char *var_name)
     int len;
     char **new_env;
 
-    free_env(env, var_name, new_var);
+    if (free_env(env, var_name, new_var) == 1)
+        return env;
     for (len = 0; env[len] != NULL; len++);
     new_env = malloc(sizeof(char *) * (len + 2));
     if (!new_env)

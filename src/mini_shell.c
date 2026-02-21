@@ -8,26 +8,27 @@
 #include "my.h"
 #include "mini_shell.h"
 
-static void shell(char **env)
+static void shell(char ***env)
 {
     char *line = NULL;
     char **args;
     size_t cap = 0;
+    int last_status = 0;
 
     while (1) {
         my_putstr(" >$ ");
-        if (getline(&line, &cap, stdin) == -1){
+        if (getline(&line, &cap, stdin) == -1) {
             free(line);
-            return;
+            strtab_free(*env);
+            exit(last_status);
         }
         if (line[0] == '\n')
             continue;
         line = remove_newline(line);
         args = my_str_to_word_array(line);
-        execute_command(args, &env, line);
+        last_status = execute_command(args, env, line, last_status);
         strtab_free(args);
     }
-    free(line);
 }
 
 int main(int argc, char **argv, char **env)
@@ -41,7 +42,7 @@ int main(int argc, char **argv, char **env)
     env_copy = my_strdup_tab(env);
     if (!env_copy)
         return 1;
-    shell(env_copy);
+    shell(&env_copy);
     strtab_free(env_copy);
     return 0;
 }
